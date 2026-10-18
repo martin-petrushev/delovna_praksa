@@ -190,12 +190,20 @@
         gap: clamp(16px, 2.1vw, 34px);
       }
       .nav-links > a:not(.button) {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 12px 14px;
         font-size: 11px;
         color: #ddd;
-        transition: color 0.2s;
+        transition:
+          color 0.2s,
+          background-color 0.2s;
       }
-      .nav-links > a:not(.button):hover {
+      .nav-links > a:not(.button):hover,
+      .nav-links > a:not(.button):focus-visible {
         color: var(--accent);
+        background-color: var(--surface);
       }
       .nav-links .button {
         min-height: 42px;
@@ -707,7 +715,7 @@
         }
         .nav-links > a:not(.button) {
           font-size: 14px;
-          padding: 16px 0;
+          padding: 16px 14px;
           border-bottom: 1px solid var(--line);
         }
         .nav-links .button {
@@ -917,9 +925,8 @@
           Мени
         </button>
         <div class="nav-links" id="nav-links">
-          <a href="#experience">Искуство</a><a href="#training">Тренинг</a
-          ><a href="#facilities">Простор</a><a href="#membership">Членство</a
-          ><a href="#contact">Контакт</a
+          <a href="#facilities">Простор</a><a href="#training">Тренинг</a
+          ><a href="#membership">Членство</a><a href="#contact">Контакт</a
           ><a class="button" href="#contact"
             >Направи го првиот чекор <span class="arrow" aria-hidden="true">↗</span></a
           >
@@ -1085,9 +1092,7 @@
         </div>
         <div class="experience-copy reveal">
           <div class="eyebrow">04 / Повеќе од еден тренинг</div>
-          <h2 id="experience-title">
-            ПОЈАВИ СЕ.<br /><span class="accent">НАДМИНИ СЕ.</span>
-          </h2>
+          <h2 id="experience-title">ПОЈАВИ СЕ.<br /><span class="accent">НАДМИНИ СЕ.</span></h2>
           <p>
             Остави ги секојдневните грижи надвор. Насочи го вниманието кон следното движење,
             следниот здив и следниот мал чекор напред.
