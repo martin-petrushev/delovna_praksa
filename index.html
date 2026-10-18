@@ -1121,7 +1121,7 @@
           <h2 id="contact-title">
             ТВОЈОТ СЛЕДЕН<br />ЧЕКОР <span class="accent">ПОЧНУВА<br />ТУКА.</span>
           </h2>
-          <p>Имаш прашање за членство или посета? Подготви ја својата порака преку формуларот.</p>
+          <p>Имаш прашање за членство или посета? Пополнете го формуларот подолу.</p>
         </div>
         <form id="inquiry-form" class="reveal">
           <div class="fields">
@@ -1174,21 +1174,9 @@
             </div>
           </div>
           <button class="button form-submit" type="submit">
-            Подготви ја пораката <span class="arrow" aria-hidden="true">↗</span>
+            Испрати порака <span class="arrow" aria-hidden="true">↗</span>
           </button>
           <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-          <div id="prepared-inquiry" hidden>
-            <label for="inquiry-output">Твојата порака</label
-            ><textarea id="inquiry-output" readonly rows="9"></textarea
-            ><button
-              id="copy-inquiry"
-              class="button secondary"
-              type="button"
-              style="margin-top: 14px"
-            >
-              Копирај ја пораката <span aria-hidden="true">↗</span>
-            </button>
-          </div>
         </form>
       </section>
     </main>
@@ -1279,8 +1267,6 @@
         document.querySelector("#year").textContent = new Date().getFullYear();
         const form = document.querySelector("#inquiry-form"),
           status = document.querySelector("#form-status"),
-          prepared = document.querySelector("#prepared-inquiry"),
-          output = document.querySelector("#inquiry-output"),
           name = document.querySelector("#name"),
           email = document.querySelector("#email"),
           message = document.querySelector("#message"),
@@ -1310,49 +1296,19 @@
           });
         });
         form.addEventListener("input", () => {
-          if (!prepared.hidden) {
-            prepared.hidden = true;
-            output.value = "";
-            status.textContent =
-              "Податоците се изменети. Подготви ја пораката повторно за да ги вклучиш измените.";
-          }
+          status.textContent = "";
         });
-        form.addEventListener("submit", (e) => {
-          e.preventDefault();
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
           const results = required.map(validate);
           if (results.includes(false)) {
             status.textContent = "Провери ги означените полиња.";
             required[results.indexOf(false)].focus();
             return;
           }
-          const phone = document.querySelector("#phone").value.trim(),
-            interest = document.querySelector("#interest").value;
-          output.value = [
-            "Здраво Premium Gym,",
-            "",
-            "Ме интересира: " + interest,
-            "",
-            message.value.trim(),
-            "",
-            "Име и презиме: " + name.value.trim(),
-            "Е-пошта: " + email.value.trim(),
-            ...(phone ? ["Телефон: " + phone] : []),
-          ].join("\n");
-          prepared.hidden = false;
-          status.textContent = "Пораката е подготвена за копирање.";
-          output.focus();
-        });
-        document.querySelector("#copy-inquiry").addEventListener("click", async () => {
-          try {
-            if (!navigator.clipboard || !window.isSecureContext) throw new Error("clipboard");
-            await navigator.clipboard.writeText(output.value);
-            status.textContent = "Пораката е копирана. Испрати ја преку контакт-канал на салата.";
-          } catch {
-            output.focus();
-            output.select();
-            status.textContent =
-              "Пораката е означена. Користи ја командата за копирање на твојот уред, па испрати ја преку контакт-канал на салата.";
-          }
+          // Simulated confirmation only; no message is transmitted.
+          form.reset();
+          status.textContent = "Пораката е успешно испратена!";
         });
         document.querySelectorAll("img").forEach((img) => {
           function fallback() {
