@@ -1178,8 +1178,7 @@
           </button>
           <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
           <div id="prepared-inquiry" hidden>
-            <label for="inquiry-output"
-              >Подготвена порака — копирај ја и испрати ја преку контакт-канал на салата</label
+            <label for="inquiry-output">Твојата порака</label
             ><textarea id="inquiry-output" readonly rows="9"></textarea
             ><button
               id="copy-inquiry"
@@ -1190,11 +1189,6 @@
               Копирај ја пораката <span aria-hidden="true">↗</span>
             </button>
           </div>
-          <noscript
-            ><p>
-              За подготовка на пораката е потребен JavaScript. Контактирај ја салата директно.
-            </p></noscript
-          >
         </form>
       </section>
     </main>
@@ -1345,8 +1339,7 @@
             ...(phone ? ["Телефон: " + phone] : []),
           ].join("\n");
           prepared.hidden = false;
-          status.textContent =
-            "Пораката е подготвена, но не е испратена. Копирај ја и испрати ја преку контакт-канал на салата.";
+          status.textContent = "Пораката е подготвена за копирање.";
           output.focus();
         });
         document.querySelector("#copy-inquiry").addEventListener("click", async () => {
