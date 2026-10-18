@@ -1,29 +1,9 @@
-version: "3.8"
+version: 1
 
-services:
-  web:
-    image: nginx:1.28-alpine
-    ports:
-      - target: 80
-        published: 8080
-        protocol: tcp
-        mode: ingress
-    configs:
-      - source: website
-        target: /usr/share/nginx/html/index.html
-        mode: 0444
-    healthcheck:
-      test: ["CMD", "wget", "-Y", "off", "-q", "-O", "/dev/null", "http://127.0.0.1/"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: any
-        delay: 5s
-
-configs:
-  website:
-    file: ./index.html
+ingress:
+  - name: app
+    service: web
+    port: 80
+    primary: true
+    access:
+      type: team
