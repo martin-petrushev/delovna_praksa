@@ -205,6 +205,9 @@
         color: var(--accent);
         background-color: var(--surface);
       }
+      .nav-links > a:not(.button)[aria-current="location"] {
+        color: var(--accent);
+      }
       .nav-links .button {
         min-height: 42px;
         padding: 12px 17px;
@@ -1241,11 +1244,33 @@
           }, 0),
         );
         mobile.addEventListener("change", () => setMenu(false));
+        const sectionLinks = [...menu.querySelectorAll("a:not(.button)")].map((link) => ({
+          link,
+          section: document.querySelector(link.getAttribute("href")),
+        }));
         function updateHeader() {
           header.classList.toggle("scrolled", scrollY > 30);
+          const position = header.getBoundingClientRect().bottom + 24;
+          sectionLinks.forEach(({ link, section }) => {
+            const bounds = section.getBoundingClientRect();
+            const active = bounds.top <= position && bounds.bottom > position;
+            if (active) link.setAttribute("aria-current", "location");
+            else link.removeAttribute("aria-current");
+          });
+        }
+        let scrollUpdatePending = false;
+        function scheduleHeaderUpdate() {
+          if (scrollUpdatePending) return;
+          scrollUpdatePending = true;
+          requestAnimationFrame(() => {
+            updateHeader();
+            scrollUpdatePending = false;
+          });
         }
         updateHeader();
-        addEventListener("scroll", updateHeader, { passive: true });
+        addEventListener("scroll", scheduleHeaderUpdate, { passive: true });
+        addEventListener("resize", scheduleHeaderUpdate);
+        addEventListener("load", scheduleHeaderUpdate);
         if ("IntersectionObserver" in window && !reduced.matches) {
           document.documentElement.classList.add("motion");
           const observer = new IntersectionObserver(
